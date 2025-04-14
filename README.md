@@ -1,71 +1,83 @@
-# boxFilterNPP - Box Filter with NPP
+README.md
 
-## Description
+Project: Image Processing with NVIDIA Performance Primitives (NPP)
 
-A NPP CUDA Sample that demonstrates how to use NPP FilterBox function to perform a Box Filter.
+Description:
+------------
+This project demonstrates image processing using the NVIDIA Performance Primitives (NPP) library. The code, `boxFilterNPP.cpp`, performs the following operations on a grayscale image:
 
-## Key Concepts
+1.  **Image Loading:** Loads a grayscale image (PGM format) from disk.
+2.  **Gaussian Blur:** Applies a Gaussian blur to the image to reduce noise and smooth it.
+3.  **Sobel Edge Detection:** Performs Sobel edge detection (both vertical and horizontal) on the blurred image.
+4. **Save the result:** Saves the blurred image to a new file.
 
-Performance Strategies, Image Processing, NPP Library
+Note: The Sobel result is calculated, but not used or saved. The thresholding step is completely commented out.
 
-## Supported SM Architectures
+File:
+-----
+*   `boxFilterNPP.cpp`: The main C++ source code file.
 
-[SM 3.5 ](https://developer.nvidia.com/cuda-gpus)  [SM 3.7 ](https://developer.nvidia.com/cuda-gpus)  [SM 5.0 ](https://developer.nvidia.com/cuda-gpus)  [SM 5.2 ](https://developer.nvidia.com/cuda-gpus)  [SM 6.0 ](https://developer.nvidia.com/cuda-gpus)  [SM 6.1 ](https://developer.nvidia.com/cuda-gpus)  [SM 7.0 ](https://developer.nvidia.com/cuda-gpus)  [SM 7.2 ](https://developer.nvidia.com/cuda-gpus)  [SM 7.5 ](https://developer.nvidia.com/cuda-gpus)  [SM 8.0 ](https://developer.nvidia.com/cuda-gpus)  [SM 8.6 ](https://developer.nvidia.com/cuda-gpus)
+Prerequisites:
+--------------
+*   **CUDA Toolkit:** The NVIDIA CUDA Toolkit must be installed. This includes the NPP library.
+*   **C++ Compiler:** A C++ compiler (e.g., g++) that is compatible with the CUDA Toolkit.
+*   **CUDA SDK:** The CUDA SDK (or a similar source) must be installed to provide the following header files:
+    *   `Exceptions.h`
+    *   `ImageIO.h`
+    *   `ImagesCPU.h`
+    *   `ImagesNPP.h`
+    *   `helper_cuda.h`
+    *   `helper_string.h`
+* **PGM image:** A PGM image to process.
 
-## Supported OSes
-
-Linux, Windows
-
-## Supported CPU Architecture
-
-x86_64, ppc64le, armv7l
-
-## CUDA APIs involved
-
-## Dependencies needed to build/run
-[FreeImage](../../README.md#freeimage), [NPP](../../README.md#npp)
-
-## Prerequisites
-
-Download and install the [CUDA Toolkit 11.4](https://developer.nvidia.com/cuda-downloads) for your corresponding platform.
-Make sure the dependencies mentioned in [Dependencies]() section above are installed.
-
-## Build and Run
-
-### Windows
-The Windows samples are built using the Visual Studio IDE. Solution files (.sln) are provided for each supported version of Visual Studio, using the format:
-```
-*_vs<version>.sln - for Visual Studio <version>
-```
-Each individual sample has its own set of solution files in its directory:
-
-To build/examine all the samples at once, the complete solution files should be used. To build/examine a single sample, the individual sample solution files should be used.
-> **Note:** Some samples require that the Microsoft DirectX SDK (June 2010 or newer) be installed and that the VC++ directory paths are properly set up (**Tools > Options...**). Check DirectX Dependencies section for details."
-
-### Linux
-The Linux samples are built using makefiles. To use the makefiles, change the current directory to the sample directory you wish to build, and run make:
-```
-$ cd <sample_dir>
-$ make
-```
-The samples makefiles can take advantage of certain options:
-*  **TARGET_ARCH=<arch>** - cross-compile targeting a specific architecture. Allowed architectures are x86_64, ppc64le, armv7l.
-    By default, TARGET_ARCH is set to HOST_ARCH. On a x86_64 machine, not setting TARGET_ARCH is the equivalent of setting TARGET_ARCH=x86_64.<br/>
-`$ make TARGET_ARCH=x86_64` <br/> `$ make TARGET_ARCH=ppc64le` <br/> `$ make TARGET_ARCH=armv7l` <br/>
-    See [here](http://docs.nvidia.com/cuda/cuda-samples/index.html#cross-samples) for more details.
-*   **dbg=1** - build with debug symbols
+Compilation:
+------------
+1.  **Navigate:** Open a terminal or command prompt and navigate to the directory containing `boxFilterNPP.cpp` and the required header files.
+2.  **Compile:** Use the `nvcc` compiler (part of the CUDA Toolkit) to compile the code:
+    ```bash
+    nvcc -o boxFilterNPP boxFilterNPP.cpp -lnppc -lnppi -lnpps -lcudart
     ```
-    $ make dbg=1
+    *   `-o boxFilterNPP`: Specifies the output executable name.
+    *   `boxFilterNPP.cpp`: The source code file.
+    *   `-lnppc`: Links the NPP Core library.
+    *   `-lnppi`: Links the NPP Image Processing library.
+    *   `-lnpps`: Links the NPP Signal Processing library.
+    *   `-lcudart`: Links the CUDA runtime library.
+    * `-I../Common`: Add the path to the common header files.
+    * `-I../Common/UtilNPP`: Add the path to the UtilNPP header files.
+
+Usage:
+------
+1.  **Run:** Execute the compiled program:
+    ```bash
+    ./boxFilterNPP
     ```
-*   **SMS="A B ..."** - override the SM architectures for which the sample will be built, where `"A B ..."` is a space-delimited list of SM architectures. For example, to generate SASS for SM 50 and SM 60, use `SMS="50 60"`.
+    *   This will process the default image `Lena.pgm` (if it exists in the same directory or can be found using `sdkFindFilePath`) and save the blurred image as `Lena_processed.pgm`.
+
+2.  **Input Image:** To specify a different input image, use the `-input` command-line argument:
+    ```bash
+    ./boxFilterNPP -input=<your_image.pgm>
     ```
-    $ make SMS="50 60"
+    *   Replace `<your_image.pgm>` with the actual path to your PGM image.
+
+3.  **Output Image:** To specify a different output image name, use the `-output` command-line argument:
+    ```bash
+    ./boxFilterNPP -output=<your_output_image.pgm>
+    ```
+    *   Replace `<your_output_image.pgm>` with the desired output filename.
+
+4.  **Both Input and Output:** To specify both the input and output images:
+    ```bash
+    ./boxFilterNPP -input=<your_image.pgm> -output=<your_output_image.pgm>
     ```
 
-*  **HOST_COMPILER=<host_compiler>** - override the default g++ host compiler. See the [Linux Installation Guide](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#system-requirements) for a list of supported host compilers.
-```
-    $ make HOST_COMPILER=g++
-```
-
-## References (for more details)
+Notes:
+------
+*   The code assumes the input image is in PGM (Portable Gray Map) format.
+*   The output image will also be in PGM format.
+*   The code includes error handling for file I/O and NPP function calls.
+*   The code prints information about the NPP library and CUDA versions.
+* The code only outputs the blurred image.
+* The Sobel result is calculated, but not used or saved.
+* The thresholding step is completely commented out.
 
