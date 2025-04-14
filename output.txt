@@ -1,0 +1,12 @@
+coder@9c32e19f6eb7:~/project/boxFilterNPP$ make run
+./boxFilterNPP
+./boxFilterNPP Starting...
+
+GPU Device 0: "Ampere" with compute capability 8.6
+
+NPP Library Version 11.3.3
+  CUDA Driver  Version: 12.6
+  CUDA Runtime Version: 11.3
+  Device 0: <          Ampere >, Compute SM 8.6 detected
+boxFilterNPP opened: <./Lena.pgm> successfully!
+Saved image: ./Lena_processed.pgm
