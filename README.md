@@ -11,7 +11,6 @@ This project demonstrates image processing using the NVIDIA Performance Primitiv
 3.  **Sobel Edge Detection:** Performs Sobel edge detection (both vertical and horizontal) on the blurred image.
 4. **Save the result:** Saves the blurred image to a new file.
 
-Note: The Sobel result is calculated, but not used or saved. The thresholding step is completely commented out.
 
 File:
 -----
