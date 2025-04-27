@@ -34,8 +34,8 @@ The code performs a 2D convolution of a randomly generated grayscale image with 
 
 2.  **Clone the Repository (if applicable):**
     ```bash
-    git clone <repository_url> # if you have a repository
-    cd <repository_directory>
+    git clone https://github.com/mulianto/test 
+    cd cuTensor
     ```
 
 3.  **Build the Project:**
